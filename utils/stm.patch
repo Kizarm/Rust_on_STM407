@@ -1,0 +1,155 @@
+diff -NBaurw ./old/core_cm4.h ./new/core_cm4.h
+--- ./old/core_cm4.h	2017-07-02 15:49:24.000000000 +0200
++++ ./new/core_cm4.h	2017-10-03 10:03:46.000000000 +0200
+@@ -141,9 +141,9 @@
+ #endif
+ 
+ #include <stdint.h>                      /*!< standard types definitions                      */
+-#include <core_cmInstr.h>                /*!< Core Instruction Access                         */
+-#include <core_cmFunc.h>                 /*!< Core Function Access                            */
+-#include <core_cm4_simd.h>               /*!< Compiler specific SIMD Intrinsics               */
++//#include "core_cmInstr.h"                /*!< Core Instruction Access                         */
++//#include "core_cmFunc.h"                 /*!< Core Function Access                            */
++//#include "core_cm4_simd.h"               /*!< Compiler specific SIMD Intrinsics               */
+ 
+ #endif /* __CORE_CM4_H_GENERIC */
+ 
+@@ -217,6 +217,7 @@
+  */
+ typedef union
+ {
++#if 0
+   struct
+   {
+ #if (__CORTEX_M != 0x04)
+@@ -231,7 +232,8 @@
+     uint32_t C:1;                        /*!< bit:     29  Carry condition code flag          */
+     uint32_t Z:1;                        /*!< bit:     30  Zero condition code flag           */
+     uint32_t N:1;                        /*!< bit:     31  Negative condition code flag       */
+-  } b;                                   /*!< Structure used for bit  access                  */
++  } b;
++#endif // 0                              /*!< Structure used for bit  access                  */
+   uint32_t w;                            /*!< Type      used for word access                  */
+ } APSR_Type;
+ 
+@@ -240,11 +242,13 @@
+  */
+ typedef union
+ {
++#if 0
+   struct
+   {
+     uint32_t ISR:9;                      /*!< bit:  0.. 8  Exception number                   */
+     uint32_t _reserved0:23;              /*!< bit:  9..31  Reserved                           */
+   } b;                                   /*!< Structure used for bit  access                  */
++#endif // 0
+   uint32_t w;                            /*!< Type      used for word access                  */
+ } IPSR_Type;
+ 
+@@ -253,6 +257,7 @@
+  */
+ typedef union
+ {
++#if 0
+   struct
+   {
+     uint32_t ISR:9;                      /*!< bit:  0.. 8  Exception number                   */
+@@ -271,6 +276,7 @@
+     uint32_t Z:1;                        /*!< bit:     30  Zero condition code flag           */
+     uint32_t N:1;                        /*!< bit:     31  Negative condition code flag       */
+   } b;                                   /*!< Structure used for bit  access                  */
++#endif //0
+   uint32_t w;                            /*!< Type      used for word access                  */
+ } xPSR_Type;
+ 
+@@ -279,6 +285,7 @@
+  */
+ typedef union
+ {
++#if 0
+   struct
+   {
+     uint32_t nPRIV:1;                    /*!< bit:      0  Execution privilege in Thread mode */
+@@ -286,6 +293,7 @@
+     uint32_t FPCA:1;                     /*!< bit:      2  FP extension active flag           */
+     uint32_t _reserved0:29;              /*!< bit:  3..31  Reserved                           */
+   } b;                                   /*!< Structure used for bit  access                  */
++#endif //0
+   uint32_t w;                            /*!< Type      used for word access                  */
+ } CONTROL_Type;
+ 
+@@ -639,12 +647,17 @@
+  */
+ typedef struct
+ {
++#if 0
+   __O  union
+   {
+     __O  uint8_t    u8;                  /*!< Offset: 0x000 ( /W)  ITM Stimulus Port 8-bit                   */
+     __O  uint16_t   u16;                 /*!< Offset: 0x000 ( /W)  ITM Stimulus Port 16-bit                  */
+     __O  uint32_t   u32;                 /*!< Offset: 0x000 ( /W)  ITM Stimulus Port 32-bit                  */
+-  }  PORT [32];                          /*!< Offset: 0x000 ( /W)  ITM Stimulus Port Registers               */
++  }  PORT [32];
++#else
++    __O  uint32_t PORT[32];              /*!< Offset: 0x000 ( /W)  ITM Stimulus Port 32-bit                  */
++#endif //0
++                          /*!< Offset: 0x000 ( /W)  ITM Stimulus Port Registers               */
+        uint32_t RESERVED0[864];
+   __IO uint32_t TER;                     /*!< Offset: 0xE00 (R/W)  ITM Trace Enable Register                 */
+        uint32_t RESERVED1[15];
+@@ -984,6 +997,8 @@
+ #define NVIC_BASE           (SCS_BASE +  0x0100UL)                    /*!< NVIC Base Address                  */
+ #define SCB_BASE            (SCS_BASE +  0x0D00UL)                    /*!< System Control Block Base Address  */
+ 
++#if 0
++
+ #define SCnSCB              ((SCnSCB_Type    *)     SCS_BASE      )   /*!< System control Register not in SCB */
+ #define SCB                 ((SCB_Type       *)     SCB_BASE      )   /*!< SCB configuration struct           */
+ #define SysTick             ((SysTick_Type   *)     SysTick_BASE  )   /*!< SysTick configuration struct       */
+@@ -1376,3 +1392,5 @@
+ #ifdef __cplusplus
+ }
+ #endif
++
++#endif // 0
+diff -NBaurw ./old/stm32f4xx.h ./new/stm32f4xx.h
+--- ./old/stm32f4xx.h	2014-11-20 19:56:00.000000000 +0100
++++ ./new/stm32f4xx.h	2017-09-30 21:53:04.000000000 +0200
+@@ -245,7 +245,7 @@
+   */
+ 
+ #include "core_cm4.h"             /* Cortex-M4 processor and core peripherals */
+-#include "system_stm32f4xx.h"
++//#include "system_stm32f4xx.h"
+ #include <stdint.h>
+ 
+ /** @addtogroup Exported_types
+@@ -494,7 +494,7 @@
+ 
+ typedef struct
+ {
+-  __IO uint32_t MACCR;
++  __IO uint32_t MACCR; /*!< tady fakt komentare nejsou */
+   __IO uint32_t MACFFR;
+   __IO uint32_t MACHTHR;
+   __IO uint32_t MACHTLR;
+@@ -1139,6 +1139,10 @@
+ /** @addtogroup Peripheral_declaration
+   * @{
+   */  
++#if 0
++
++// presunuto do statickych promennych - lze z toho vzit deklarace
++
+ #define TIM2                ((TIM_TypeDef *) TIM2_BASE)
+ #define TIM3                ((TIM_TypeDef *) TIM3_BASE)
+ #define TIM4                ((TIM_TypeDef *) TIM4_BASE)
+@@ -1223,6 +1227,8 @@
+ #define FSMC_Bank4          ((FSMC_Bank4_TypeDef *) FSMC_Bank4_R_BASE)
+ #define DBGMCU              ((DBGMCU_TypeDef *) DBGMCU_BASE)
+ 
++#endif // 0
++
+ /**
+   * @}
+   */

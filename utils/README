@@ -1,0 +1,11 @@
+V tomto adresáři jsou utility, které vytvoří strukturu STM32F407 v rustu,
+soubor stm.rs. Bohužel jsem to dělal předtím než jsem našel na webu
+https://github.com/posborne/cmsis-svd
+docela dobrý nástroj pro vytváření těchto stromů, takže jsem se neuměle
+pokusil rozparsovat AST z hlaviček core_cm4.h, stm32f4xx.h dodávaných výrobcem.
+Jak to funguje je patrné z Makefile, hlavičky je nutné nakopírovat do tohoto
+adresáře, ani je sem nedávám, překlad toho ast bude působit v jiné verzi
+problémy, dále je nutné trochu upravit (stm.patch), výsledek je pak v src.
+
+
+

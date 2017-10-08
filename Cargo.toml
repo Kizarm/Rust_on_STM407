@@ -1,0 +1,14 @@
+[package]
+name = "blink"
+version = "0.1.0"
+authors = ["cbiffle <code@cliffle.com>"]
+
+[dependencies]
+rust-libcore = "*"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+
