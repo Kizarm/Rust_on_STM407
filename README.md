@@ -6,10 +6,9 @@ Minimal Cortex-M (STM32F4) Rust Example
 This demonstrates how to write, build, and link a very minimal program for the
 STM32F4 microcontroller (a Cortex-M4 using the ARMv7E-M instruction set).
 
-Note that this program is *very* minimal.  It blink an blue LED on Discovery.
-Setting hardware is not exactly correct, but work.
+Note that this program is minimal.  It blink an LED on Discovery.
 
-This is all tested on Rust nightly (1.22.0-nightly).
+This is all tested on Rust nightly (1.22.0-nightly, Ubuntu 16.04, program in RAM).
 
 I've done my best to comment things like crazy.  Here's a rough tour of the
 project:
@@ -18,10 +17,8 @@ project:
   - `Cargo.toml` defines the build.  The main interesting bits are the
     dependency on `rust-libcore` (avoiding the standard library) and the use of
     `panic = "abort"` (avoiding the need for some unwinding code).
-  - `src/main.rs` is a self-contained program, including definitions for the
-    hardware vector table.
-  - I've included `Cargo.lock` to nail down the dependencies and help you
-    reproduce my results.
+  - `src/main.rs` is a program contains a Test struct, work with interrupt
+     from systick timer.
 
 - The build environment:
   - `thumbv7em-none-eabi.json` is an LLVM target definition for the Cortex-M4,
@@ -29,7 +26,7 @@ project:
     very cool that we can just plug this in without modifying the toolchain.
   - `.cargo/config` overrides the default linker to use the ARM one.
   - `layout.ld` is a linker script that describes how to map the compiled
-    program into an STM32F4 binary image (mapped to ram).
+    program into an STM32F4 binary image (mapped to ram !!!).
 
 ## Building with native Rust and ARM toolchain
 

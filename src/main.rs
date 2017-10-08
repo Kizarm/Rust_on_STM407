@@ -72,12 +72,21 @@ fn main () -> ! {
   }
   let blue = Pin::new (15u16, PortNo::PortD);         // zde jsou ty Pin_y
   let oran = Pin::new (13u16, PortNo::PortD);         // vlastně taky konstantní
+  let gren = Pin::new (12u16, PortNo::PortD);
   blue.init(PinMode::ModeOut);
   oran.init(PinMode::ModeOut);
+  gren.init(PinMode::ModeOut);
   oran.set (true);                                    // jen rozsvitit
+  let mut count = 0u32;
   loop {
     blue.toggle();                                    // perioda 2 ms
     wait();
+
+    count += 1;
+    if count >= 1000 {
+      count = 0;
+      gren.toggle();                                  // perioda 2 s
+    }
   }
 }
 /// This function will be "called" by the processor at reset.  Note that none of
